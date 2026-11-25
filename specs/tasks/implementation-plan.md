@@ -80,7 +80,7 @@ independent steps (for example S08/S09 and S10) can run in parallel.
 | ID | Step | Description | AC | Dependencies | Status |
 | -- | ---- | ----------- | -- | ------------ | ------ |
 | S01a | Data: text | Obtain the ONBV text | — | None | done |
-| S01b | Data: attribution | Write `ATTRIBUTION.md` (source, CC BY-SA 4.0, marked section for the sync test) | `attr-file` | S01a | pending (blocks S08b and S12) |
+| S01b | Data: attribution | Write `ATTRIBUTION.md` (source, CC BY-SA 4.0, marked section for the sync test) | `attr-file` | S01a | done |
 | S02 | Chunking | Generate `chunks_onbv.jsonl` (8,102 chunks) | — | S01a | done |
 | S03a | Scaffold | Project scaffold: `package.json`, `tsconfig`, wrangler config, Vitest, `tsx`. The platform spike was skipped (2026-11-18); see [platform](../design/cloudflare-platform.md) | `tests`, `no-secrets` | None | pending |
 | S03b | Move ingestion files | Move `chunk_bible.py` and `chunks_onbv.jsonl` into `ingestion/` and adjust paths | — | None | pending |
