@@ -1,0 +1,5 @@
+{
+  "name": "bible-rag",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-25"
+}

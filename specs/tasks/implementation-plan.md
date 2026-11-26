@@ -82,8 +82,8 @@ independent steps (for example S08/S09 and S10) can run in parallel.
 | S01a | Data: text | Obtain the ONBV text | — | None | done |
 | S01b | Data: attribution | Write `ATTRIBUTION.md` (source, CC BY-SA 4.0, marked section for the sync test) | `attr-file` | S01a | done |
 | S02 | Chunking | Generate `chunks_onbv.jsonl` (8,102 chunks) | — | S01a | done |
-| S03a | Scaffold | Project scaffold: `package.json`, `tsconfig`, wrangler config, Vitest, `tsx`. The platform spike was skipped (2026-11-18); see [platform](../design/cloudflare-platform.md) | `tests`, `no-secrets` | None | pending |
-| S03b | Move ingestion files | Move `chunk_bible.py` and `chunks_onbv.jsonl` into `ingestion/` and adjust paths | — | None | pending |
+| S03a | Scaffold | Project scaffold: `package.json`, `tsconfig`, wrangler config, Vitest, `tsx`. The platform spike was skipped (2026-11-18); see [platform](../design/cloudflare-platform.md) | `tests`, `no-secrets` | None | done |
+| S03b | Move ingestion files | Move `chunk_bible.py` and `chunks_onbv.jsonl` into `ingestion/` and adjust paths | — | None | done |
 | S03c | Config and books | `config.ts` (model, dimension, `top_k`, threshold, prefixes as parameters) and `books.ts` (Portuguese book names) | `fr-search` | S03a | pending |
 | S03d | Embeddings core | Pure `services/embeddings.ts`: prefix, truncation, L2 norm; Vitest | `same-model`, `tests` | S03a, S03c | pending |
 | S04a | Coverage validation | `validate.ts`: every verse in exactly one chunk, confirm chunk count | `chunk-integrity` | S02, S03a | pending |
