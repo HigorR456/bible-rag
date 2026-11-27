@@ -9,10 +9,12 @@ export const VECTOR_METRIC = "cosine";
 
 /**
  * EmbeddingGemma task prefixes, applied identically at ingestion and query.
- * Provisional: empty until S04b decides and records them.
+ * Decided in S04b: the official EmbeddingGemma retrieval prompts (the model
+ * was trained with them). Changing either requires re-embedding the index.
+ * Documents have no per-chunk title, hence "title: none".
  */
-export const DOCUMENT_PREFIX = "";
-export const QUERY_PREFIX = "";
+export const DOCUMENT_PREFIX = "title: none | text: ";
+export const QUERY_PREFIX = "task: search result | query: ";
 
 export const TOP_K_DEFAULT = 6;
 export const TOP_K_MAX = 8;
