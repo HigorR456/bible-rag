@@ -64,8 +64,13 @@ is not a drop-in fallback because it does not fit this budget.
   `cosine` metric and the final chosen dimension.
 - **EmbeddingGemma prefixes:** the model was trained with task prefixes
   (query vs. document). Test whether they improve search and, if used,
-  always apply the same ones at ingestion and query time. **This decision
-  blocks S05 (ingestion)**: record it in `config.ts` and the README before
+  always apply the same ones at ingestion and query time. **Decided (S04b):**
+  documents use `"title: none | text: "` and queries use
+  `"task: search result | query: "` (the official EmbeddingGemma retrieval
+  prompts), recorded in `config.ts` (`DOCUMENT_PREFIX`, `QUERY_PREFIX`).
+  Comparing with/without prefixes on real data is part of the S10b
+  calibration; any change requires re-embedding. This decision blocked S05
+  (ingestion): record it in `config.ts` and the README before
   creating vectors.
 - Document in the README: model, final dimension, truncation, metric, chunk
   count and prefixes.
