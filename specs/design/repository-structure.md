@@ -9,7 +9,7 @@ bible-rag/
 │   ├── env.ts                # Env bindings type + adapters building Embedder/VectorStore/Generator from bindings
 │   ├── config.ts             # model, dimension, topK, threshold, limits
 │   ├── schemas.ts            # Zod request/response schemas (also OpenAPI)
-│   ├── books.ts              # USFM -> PT name, canonical order, testament
+│   ├── books.ts              # book code -> PT name, canonical order, testament
 │   ├── attribution.ts        # ONBV attribution block
 │   ├── middleware/
 │   │   ├── auth.ts           # X-API-Key check (constant time)

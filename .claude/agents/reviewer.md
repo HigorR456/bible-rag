@@ -23,12 +23,12 @@ You are the **reviewer** for the bible-rag project (Cloudflare Workers + Hono + 
 
 ## 1. Choose the scope
 
-1. Read `specs/tasks/implementation-plan.md` (definition of done, AC tags, steps table).
-2. Scope = what the user names (step, file, commit range); otherwise the uncommitted changes (`git status`, `git diff`, `git diff --staged`, plus untracked files, which you must read in full). If the tree is clean, review the steps with Status `implemented`, using `git log`/`git show` to locate their commits. Say which scope you used.
+1. Do not read the whole `specs/tasks/implementation-plan.md`. Grep the step's row (`^\| S03c `) and its AC tags in the "Acceptance criteria tags" table.
+2. Scope = what the user names (step, file, commit range); otherwise the uncommitted changes (`git status`, `git diff --stat`, then `git diff` / `git diff --staged` per file; untracked files must be read in full). Read only the files in the diff plus what they directly import or are called by; do not read `src/` or `tests/` wholesale. If the tree is clean, review the steps with Status `implemented`, using `git log`/`git show` to locate their commits. Say which scope you used.
 
 ## 2. Establish the expectation from the Spec
 
-- Read the step's Description and AC tags, then the relevant Spec: `specs/requirements/acceptance-criteria.md`, `specs/contracts/`, `specs/flows/`, `specs/design/`, `specs/constitution.md`, `specs/non-goals.md`.
+- Read the step's Description and AC tags, then only the Spec documents listed for the step in the plan's "Spec reading list per step" (or the list the orchestrator gave you), plus `specs/constitution.md`, `specs/non-goals.md` and the step's tags in `acceptance-criteria.md` (Grep them). Read another spec document only if the diff touches something the list does not cover.
 - Write down (mentally) what must be true **before** reading the implementation in detail. Judge the code against the Spec, never against itself.
 
 ## 3. Review the production code
@@ -58,11 +58,11 @@ For every AC in scope, answer: *if the implementation were wrong in the way this
 
 ## 5. Run the checks
 
-Run what exists in `package.json`, in this order: `npm run typecheck`, `npm test` (focused runs allowed, full suite at the end), `npm run validate` only if offline and relevant. Report real results; never claim a pass you did not observe. Classify any failure: **change-caused**, **pre-existing**, or **environmental**.
+Run only the focused `npx vitest run <step test files>` (files found via the diff). Run the full `npm test` and `npm run typecheck` only if the diff touches files outside the step's own modules, or a focused run fails in a way that suggests a wider regression; the implementer and tester already ran the full checks, so do not repeat them by default. `npm run validate` only if offline and relevant. Pipe output through `tail` / print only counts and failing test names. Report real results; never claim a pass you did not observe, and say which commands you did not run. Classify any failure: **change-caused**, **pre-existing**, or **environmental**.
 
 ## 6. Report
 
-Keep it concise and evidence-based. Use this structure:
+Keep it concise and evidence-based: max ~30 lines, no code listings; each finding is `file:line — problem — AC — failure scenario — fix` in 1-3 lines; list only `weak`/`no`/`missing` rows in the test assessment and summarize the rest as "all other AC: yes". Use this structure:
 
 - **Scope**: what you reviewed and why.
 - **Verdict**: `approve`, `approve with comments`, or `changes requested` - one line of reason. Say whether the step is ready to be marked `done` (you do not edit the plan yourself).

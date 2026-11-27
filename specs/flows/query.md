@@ -16,7 +16,7 @@ Steps, in order:
   parse it using the book table. Supported forms: a single verse
   ("João 3:16", "Jo 3.16") or a verse range within one chapter of up to 5
   verses ("Mateus 6:14-15"). Matching is accent- and case-insensitive and
-  accepts full Portuguese names, USFM codes and the abbreviations listed in
+  accepts full Portuguese names, book codes and the abbreviations listed in
   `books.ts`. **Ambiguous abbreviations** (e.g. "Jo" for João/Jó, "Jd" for
   Judas/Juízes) are **not** in the table and are not recognized. **Not
   supported** (ignored, semantic search only): a whole chapter ("João 3"),

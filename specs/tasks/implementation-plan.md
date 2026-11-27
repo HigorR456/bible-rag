@@ -84,7 +84,7 @@ independent steps (for example S08/S09 and S10) can run in parallel.
 | S02 | Chunking | Generate `chunks_onbv.jsonl` (8,102 chunks) | — | S01a | done |
 | S03a | Scaffold | Project scaffold: `package.json`, `tsconfig`, wrangler config, Vitest, `tsx`. The platform spike was skipped (2026-11-18); see [platform](../design/cloudflare-platform.md) | `tests`, `no-secrets` | None | done |
 | S03b | Move ingestion files | Move `chunk_bible.py` and `chunks_onbv.jsonl` into `ingestion/` and adjust paths | — | None | done |
-| S03c | Config and books | `config.ts` (model, dimension, `top_k`, threshold, prefixes as parameters) and `books.ts` (Portuguese book names) | `fr-search` | S03a | pending |
+| S03c | Config and books | `config.ts` (model, dimension, `top_k`, threshold, prefixes as parameters) and `books.ts` (Portuguese book names) | `fr-search` | S03a | done |
 | S03d | Embeddings core | Pure `services/embeddings.ts`: prefix, truncation, L2 norm; Vitest | `same-model`, `tests` | S03a, S03c | pending |
 | S04a | Coverage validation | `validate.ts`: every verse in exactly one chunk, confirm chunk count | `chunk-integrity` | S02, S03a | pending |
 | S04b | Model and prefixes | Confirm model/dimension (512 decided), **decide EmbeddingGemma prefixes** and record them in `config.ts` ([budget](../design/dimension-budget.md)) | `budget` | S03c, S03d | pending |
@@ -105,3 +105,39 @@ independent steps (for example S08/S09 and S10) can run in parallel.
 | S10c | Capacity measurement | Measure Neurons per answer, derive daily capacity of `/api/chat`; measure citations outside `sources` | `neurons`, `grounding` | S10b | pending |
 | S11 | README | Model, dimension, truncation, metric, prefixes, chunk count, generation model, capacity estimate, privacy/logging note | `privacy` | S10c | pending |
 | S12 | Deploy | `wrangler deploy`, set `API_KEY` as a Worker secret, confirm usage in the dashboard | `deploy`, `monitor`, `no-secrets` | S08b, S09b, S10c, S11 | pending |
+
+## Spec reading list per step
+
+Agents read only the documents listed for their step, plus
+[constitution](../constitution.md), [non-goals](../non-goals.md) and the
+step's tags in
+[acceptance-criteria.md](../requirements/acceptance-criteria.md). Paths are
+relative to `specs/`. Add a document here if a step turns out to need it.
+
+| ID | Documents |
+| -- | --------- |
+| S01a, S01b | `requirements/translation-and-license.md` |
+| S02 | `design/chunking.md`, `design/data-model.md` |
+| S03a | `design/repository-structure.md`, `design/cloudflare-platform.md` |
+| S03b | `design/repository-structure.md` |
+| S03c | `design/data-model.md`, `design/dimension-budget.md` |
+| S03d | `design/dimension-budget.md`, `flows/query.md` |
+| S04a | `design/chunking.md`, `design/data-model.md`, `flows/ingestion.md` |
+| S04b | `design/dimension-budget.md` |
+| S05a | `design/cloudflare-platform.md`, `design/data-model.md`, `flows/ingestion.md` |
+| S05b | `flows/ingestion.md`, `design/dimension-budget.md` |
+| S06a | `flows/query.md`, `design/data-model.md` |
+| S06b | `flows/query.md` |
+| S06c | `flows/query.md`, `design/chunking.md` |
+| S06d | `contracts/api-endpoints.md`, `flows/query.md` |
+| S07a | `contracts/prompt.md`, `flows/query.md` |
+| S07b | `contracts/api-endpoints.md`, `contracts/prompt.md` |
+| S08a | `contracts/api-endpoints.md` |
+| S08b | `contracts/api-endpoints.md`, `contracts/swagger.md`, `requirements/translation-and-license.md` |
+| S09a | `contracts/access-and-protection.md`, `contracts/api-endpoints.md` |
+| S09b | `contracts/access-and-protection.md` |
+| S10a | `contracts/prompt.md`, `contracts/access-and-protection.md` |
+| S10b | `flows/query.md`, `design/dimension-budget.md` |
+| S10c | `design/cloudflare-platform.md`, `contracts/prompt.md` |
+| S11 | `design/dimension-budget.md`, `design/cloudflare-platform.md`, `contracts/access-and-protection.md` |
+| S12 | `design/cloudflare-platform.md`, `contracts/access-and-protection.md` |

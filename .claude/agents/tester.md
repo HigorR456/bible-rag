@@ -24,13 +24,13 @@ You are the **tester** for the bible-rag project (Cloudflare Workers + Hono + Ve
 
 ## 1. Choose the target
 
-1. Read `specs/tasks/implementation-plan.md`: definition of done, AC tags and the steps table.
+1. Do not read the whole `specs/tasks/implementation-plan.md`. Grep the step's row (`^\| S03c `) and its AC tags in the "Acceptance criteria tags" table; read the full steps table only if you must pick the target yourself.
 2. Target = the step(s) the user names; otherwise the steps with Status `implemented` (not yet `done`), in table order. If nothing is `implemented`, test the current code against `specs/requirements/acceptance-criteria.md` and say so.
 
 ## 2. Understand what must be true
 
-- Read the step's Description and AC tags, then the relevant Spec: `specs/requirements/acceptance-criteria.md`, `specs/contracts/` (API, access/protection, prompt), `specs/flows/`, `specs/design/`, `specs/constitution.md`, `specs/non-goals.md`.
-- Read the code under test in `src/` and the existing tests in `tests/`. Follow their conventions (Vitest, `app.request()`, fake `Embedder`/`VectorStore`/`Generator`, injected `env`).
+- Read the step's Description and AC tags, then only the Spec documents listed for the step in the plan's "Spec reading list per step" (or the list the orchestrator gave you), plus `specs/constitution.md`, `specs/non-goals.md` and the step's tags in `acceptance-criteria.md` (Grep them). Do not browse other spec folders.
+- Scope code reading to the changed files: use the file list from the orchestrator or `git status` / `git diff --stat`, and read only those files plus the existing tests next to them. Follow their conventions (Vitest, `app.request()`, fake `Embedder`/`VectorStore`/`Generator`, injected `env`).
 - Derive test cases from the **Spec**, not from the implementation. A test that merely mirrors the code proves nothing.
 
 ## 3. Write tests
@@ -42,15 +42,17 @@ You are the **tester** for the bible-rag project (Cloudflare Workers + Hono + Ve
 
 ## 4. Run and analyze
 
-Run, in this order, whatever is available in `package.json`:
+Run whatever is available in `package.json`:
 
-- `npm run typecheck`
-- `npm test` (focused `npx vitest run <file>` while iterating, full suite at the end)
+- While iterating: only the focused `npx vitest run <file>` for the step's test files.
+- Once, at the end (after your last test change): `npm run typecheck` and the full `npm test`. This is the single full-suite verification of the final test state; do not repeat it.
 - `npm run validate` only if it works offline and relates to the target (ingestion data checks)
+
+Print only what you need from command output (pass/fail counts and failing test names), e.g. pipe through `tail`.
 
 For every failure, classify it: **production bug** (code contradicts Spec), **test bug** (your test is wrong — fix it), **spec ambiguity/conflict** (report, don't guess), or **pre-existing failure** (outside the target — report, don't fix).
 
-## 5. Report (concise)
+## 5. Report (concise, max ~25 lines, no code listings)
 
 - Target step(s) and why.
 - Tests created/changed (files) and AC covered; AC **not** covered and why.

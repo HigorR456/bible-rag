@@ -16,7 +16,9 @@ script. Each line:
 }
 ```
 
-- `book` uses the **USFM** book code (GEN, EXO, ..., MAT, JHN, ..., REV).
+- `book` uses the three-character book code **as written in `chunks_onbv.jsonl`**
+  (GEN, EXO, ..., MAT, JOH, ..., REV). It is USFM-like but not identical
+  (e.g. JOH, EZE, JOE, SOL, JAM, MAR, LUK, PHI); `books.ts` follows the data.
 - `id` is stable and deterministic (book + chapter + range) and fits the
   Vectorize 64-byte limit. Using the JSONL `id` as the vector ID makes
   upserts idempotent (as long as chunk boundaries do not change).
@@ -31,13 +33,13 @@ script. Each line:
 
 ## Book table
 
-`src/books.ts`, shared with ingestion: maps USFM code → Portuguese name,
+`src/books.ts`, shared with ingestion: maps book code → Portuguese name,
 canonical order and testament.
 
 ```ts
 export const BOOKS = {
   GEN: { code: "GEN", name: "Gênesis", order: 1,  testament: "AT" },
-  JHN: { code: "JHN", name: "João",    order: 43, testament: "NT" },
+  JOH: { code: "JOH", name: "João",    order: 43, testament: "NT" },
   // ... 66 books
 } as const satisfies Record<string, Book>;
 

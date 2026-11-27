@@ -25,14 +25,14 @@ const Testament = z.enum(["AT", "NT"]);
 const SearchRequest = z.object({
   question: z.string().trim().min(3).max(500),   // trim runs before length checks
   top_k: z.number().int().min(1).max(8).default(6),
-  book: z.enum(BOOK_CODES).optional(),           // USFM code, e.g. "JHN" (enum shows in OpenAPI)
+  book: z.enum(BOOK_CODES).optional(),           // book code, e.g. "JOH" (enum shows in OpenAPI)
   testament: Testament.optional(),
 });
 
 const ChatRequest = SearchRequest;               // same fields; separate name for OpenAPI docs
 
 const Source = z.object({
-  id: z.string(),          // passage id, e.g. "MAT_6_14-15" or "JHN_3_16"
+  id: z.string(),          // passage id, e.g. "MAT_6_14-15" or "JOH_3_16"
   reference: z.string(),   // "Mateus 6:14-15"
   text: z.string(),
   score: z.number(),       // cosine similarity from Vectorize (higher = closer)
@@ -59,7 +59,7 @@ const ChatResponse = z.object({
 const SearchResponse = ChatResponse.omit({ answer: true, disclaimer: true });
 ```
 
-- `book` must be a valid USFM code from the book table; an unknown code is a
+- `book` must be a valid book code from the book table; an unknown code is a
   `422`. Filters map to Vectorize metadata filters
   ([data model](../design/data-model.md)).
 - `sources` has at most `top_k` items, **after** the similarity threshold
