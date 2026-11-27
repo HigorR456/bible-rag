@@ -88,7 +88,7 @@ independent steps (for example S08/S09 and S10) can run in parallel.
 | S03d | Embeddings core | Pure `services/embeddings.ts`: prefix, truncation, L2 norm; Vitest | `same-model`, `tests` | S03a, S03c | done |
 | S04a | Coverage validation | `validate.ts`: every verse in exactly one chunk, confirm chunk count | `chunk-integrity` | S02, S03a | done |
 | S04b | Model and prefixes | Confirm model/dimension (512 decided), **decide EmbeddingGemma prefixes** and record them in `config.ts` ([budget](../design/dimension-budget.md)) | `budget` | S03c, S03d | done |
-| S05a | Index setup | Create the Vectorize index and metadata indexes (external effect; record the commands) | `real-vectorize` | S04b | pending |
+| S05a | Index setup | Create the Vectorize index and metadata indexes (external effect; record the commands) | `real-vectorize` | S04b | done |
 | S05b | Ingestion | `ingest.ts`: generate embeddings, upsert in batches, verify index count = chunk count (shared pure `embeddings.ts`) | `chunk-integrity`, `same-model`, `no-secrets` | S04a, S05a | pending |
 | S06a | Retrieval: query | `retrieval.ts`: embed query, filters, threshold; Vitest with fake services | `fr-search`, `fr-no-context`, `tests` | S03d, S05b | pending |
 | S06b | Retrieval: reference | Reference lookup ("João 3:16" → chunk containing the verse) | `ref-lookup` | S06a | pending |

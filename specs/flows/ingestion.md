@@ -44,6 +44,39 @@ the developer. Steps, in order:
   `chunks_onbv.jsonl` before testing.
 - **Smoke test** with queries and check the returned references.
 
+## Index setup commands
+
+Run **once**, by the developer, from the repository root and **before**
+ingestion. They change the Cloudflare account, so authenticate first with
+`npx wrangler login` (or a `CLOUDFLARE_API_TOKEN` environment variable with
+Vectorize edit permission; never commit it).
+
+The index is `bible-onbv`, bound as `VECTORIZE` in `wrangler.jsonc`.
+Dimension and metric are `EMBEDDING_DIMENSION` and `VECTOR_METRIC` in
+`src/config.ts`; the metadata indexes are the ones marked in the
+[data model](../design/data-model.md#metadata-stored-in-vectorize-per-vector).
+Dimension and metric cannot be changed after creation.
+
+```bash
+npx wrangler vectorize create bible-onbv --dimensions=512 --metric=cosine --update-config=false
+npx wrangler vectorize create-metadata-index bible-onbv --propertyName=book --type=string
+npx wrangler vectorize create-metadata-index bible-onbv --propertyName=testament --type=string
+npx wrangler vectorize create-metadata-index bible-onbv --propertyName=chapter --type=number
+npx wrangler vectorize create-metadata-index bible-onbv --propertyName=verse_start --type=number
+```
+
+`--update-config=false` keeps wrangler from editing the configuration, which
+already has the binding.
+
+Then verify. Metadata index creation is also asynchronous: do not start
+ingestion until all four properties are listed with the right types.
+
+```bash
+npx wrangler vectorize get bible-onbv                  # dimensions 512, metric cosine
+npx wrangler vectorize list-metadata-index bible-onbv  # the 4 properties
+npx wrangler vectorize info bible-onbv                 # vector count 0
+```
+
 ## What is shared with the Worker
 
 Ingestion calls Workers AI over **REST** (`fetch`) while the Worker uses the
@@ -78,7 +111,7 @@ chunking rules, the model, the dimension, truncation or prefixes change:
   creating duplicates and overlaps; incompatible vectors would be mixed);
 - **delete the old index first, then create a new one** (e.g.
   `bible-onbv-v2`), ingest, verify and point the `VECTORIZE` binding in
-  `wrangler.toml` to it before deploying. The 5 M stored dimensions are
+  `wrangler.jsonc` to it before deploying. The 5 M stored dimensions are
   **account-wide** and two full indexes (~4.15 M each at 512 dimensions)
   never fit together on Free, so a side-by-side swap is not possible.
 - **There is no rollback by keeping the old index.** Recovery means
