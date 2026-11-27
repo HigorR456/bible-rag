@@ -13,6 +13,21 @@ the developer. Steps, in order:
   - non-empty `text`; unique `id`; consistent `word_count`;
   - verses missing in the source itself (common in modern translations)
     are listed and documented, not treated as errors.
+
+  The command also checks that `id` and `ref` match the book, chapter and
+  verse range ([data model](../design/data-model.md)) and the limits of the
+  [chunking rules](../design/chunking.md): at most 120 words per chunk
+  (except a single verse that alone exceeds it) and at most 5 verses
+  (counted on source verses).
+
+  Run `npm run validate -- <path to poronbv_vpl.txt>` (default path:
+  `ingestion/source/poronbv_vpl.txt`, ignored by Git). The command fails if
+  the source file cannot be read, including an explicit empty path, and on
+  unknown or conflicting arguments. `npm run validate -- --jsonl-only`
+  checks just the JSONL and warns that the source was **not** verified
+  (coverage, text and the 5-verse limit); it does not replace the full
+  validation. Source-verified result on 2026-11-27 (`poronbv_vpl.txt`):
+  8,102 chunks, no errors, 0 missing verse numbers.
 - **Count** chunks and confirm model/dimension
   ([dimension budget](../design/dimension-budget.md)). **Decide the
   EmbeddingGemma prefixes now** (test with and without): this must be

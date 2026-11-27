@@ -86,7 +86,7 @@ independent steps (for example S08/S09 and S10) can run in parallel.
 | S03b | Move ingestion files | Move `chunk_bible.py` and `chunks_onbv.jsonl` into `ingestion/` and adjust paths | — | None | done |
 | S03c | Config and books | `config.ts` (model, dimension, `top_k`, threshold, prefixes as parameters) and `books.ts` (Portuguese book names) | `fr-search` | S03a | done |
 | S03d | Embeddings core | Pure `services/embeddings.ts`: prefix, truncation, L2 norm; Vitest | `same-model`, `tests` | S03a, S03c | done |
-| S04a | Coverage validation | `validate.ts`: every verse in exactly one chunk, confirm chunk count | `chunk-integrity` | S02, S03a | pending |
+| S04a | Coverage validation | `validate.ts`: every verse in exactly one chunk, confirm chunk count | `chunk-integrity` | S02, S03a | done |
 | S04b | Model and prefixes | Confirm model/dimension (512 decided), **decide EmbeddingGemma prefixes** and record them in `config.ts` ([budget](../design/dimension-budget.md)) | `budget` | S03c, S03d | pending |
 | S05a | Index setup | Create the Vectorize index and metadata indexes (external effect; record the commands) | `real-vectorize` | S04b | pending |
 | S05b | Ingestion | `ingest.ts`: generate embeddings, upsert in batches, verify index count = chunk count (shared pure `embeddings.ts`) | `chunk-integrity`, `same-model`, `no-secrets` | S04a, S05a | pending |
